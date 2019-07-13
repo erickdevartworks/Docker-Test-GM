@@ -7,7 +7,7 @@ gmcn_init
 if [ $# -gt 0 ]; then
     args=("$@")
 else
-    args=("-rpcallowip=::/0")
+    args=("-rpcallowip=127.0.0.1")
 fi
 
 exec gamblecoind "${args[@]}"
