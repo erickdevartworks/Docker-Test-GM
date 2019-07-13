@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -ex
+
+gmcn_init
+
+if [ $# -gt 0 ]; then
+    args=("$@")
+else
+    args=("-rpcallowip=::/0")
+fi
+
+exec gamblecoind "${args[@]}"

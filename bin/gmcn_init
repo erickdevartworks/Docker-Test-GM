@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -ex
+
+# This shouldn't be in the Dockerfile or containers built from the same image
+# will have the same credentials.
+if [ ! -e "$HOME/.Gamblecoin/gamblecoin.conf" ]; then
+    mkdir -p $HOME/.Gamblecoin
+
+    echo "Creating gamblecoin.conf"
+
+    # Seed a random password for JSON RPC server
+    cat <<EOF > $HOME/.Gamblecoin/gamblecoin.conf
+disablewallet=${DISABLEWALLET:-1}
+printtoconsole=${PRINTTOCONSOLE:-1}
+rpcuser=${RPCUSER:-gamblecoinrpc}
+rpcpassword=${RPCPASSWORD:-gamblecoinpassword}
+EOF
+
+fi
+
+cat $HOME/.Gamblecoin/gamblecoin.conf
+
+echo "Initialization completed successfully"

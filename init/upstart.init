@@ -1,0 +1,15 @@
+# Copy to /etc/init/docker-gamblecoind.conf
+description "Docker container for gamblecoind p2p node"
+start on filesystem and started docker
+stop on runlevel [!2345]
+respawn
+pre-start script
+  # Clean-up if left behind
+  docker rm -f gamblecoind-node || true
+  
+  # Attempt to always update and fail silently if the network isn't ready
+  docker pull changeme/gamblecoind || true
+end script
+script
+  exec docker run --rm -v gamblecoind-data:/gamblecoin --name=gamblecoind-node --rm -p 12010:12010 -p 127.0.0.1:12000:12000 changeme/gamblecoind
+end script
